@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -g  -shared -Wl,-soname,libTwoWheel_Linear_controller.so -o /home/mm/modulationVel_obsAvoidance_ws/devel/lib/libTwoWheel_Linear_controller.so CMakeFiles/TwoWheel_Linear_controller.dir/src/TwoWheel_Linear_controller.cpp.o 

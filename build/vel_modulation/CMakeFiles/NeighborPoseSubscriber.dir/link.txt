@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -g  -shared -Wl,-soname,libNeighborPoseSubscriber.so -o /home/mm/modulationVel_obsAvoidance_ws/devel/lib/libNeighborPoseSubscriber.so CMakeFiles/NeighborPoseSubscriber.dir/src/NeighborPoseSubscriber.cpp.o 

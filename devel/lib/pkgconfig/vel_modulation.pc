@@ -1,0 +1,8 @@
+prefix=/home/mm/modulationVel_obsAvoidance_ws/devel
+
+Name: vel_modulation
+Description: Description of vel_modulation
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

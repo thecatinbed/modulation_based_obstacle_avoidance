@@ -1,0 +1,28 @@
+<launch>
+    <!-- 参数定义 -->
+    <param name="controller/linear_kp" value="1" />
+    <param name="controller/linear_ki" value="0" />
+    <param name="controller/linear_kd" value="0.0" />
+    <param name="controller/angular_kp" value="8" />
+    <param name="controller/angular_ki" value="0.0" />
+    <param name="controller/angular_kd" value="0.5" />
+    <!-- <param name="controller/linear_kp" value="1.4" />
+    <param name="controller/linear_ki" value="0" />
+    <param name="controller/linear_kd" value="0.0" />
+    <param name="controller/angular_kp" value="2.5" />
+    <param name="controller/angular_ki" value="0.0" />
+    <param name="controller/angular_kd" value="0.2" /> -->
+    <param name="use_simulation" value="true" />
+    <!-- <param name="controller/max_velocity" value="8.0" />
+    <param name="controller/min_velocity" value="0.04" />
+    <param name="controller/max_acceleration" value="10.0" /> -->
+    <group ns="robot_0">
+        <node pkg="vel_modulation" type="multi_control_node" name="control_node" output="screen"/>
+    </group>
+    <group ns="robot_1">
+        <node pkg="vel_modulation" type="multi_control_node" name="control_node" output="screen"/>
+    </group>
+    <group ns="robot_2">
+        <node pkg="vel_modulation" type="multi_control_node" name="control_node" output="screen"/>
+    </group>
+</launch>

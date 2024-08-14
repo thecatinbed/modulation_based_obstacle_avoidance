@@ -1,0 +1,2 @@
+vel_modulation
+-DCATKIN_DEVEL_PREFIX=/home/mm/modulationVel_obsAvoidance_ws/devel -DCMAKE_INSTALL_PREFIX=/home/mm/modulationVel_obsAvoidance_ws/install -G Unix Makefiles
