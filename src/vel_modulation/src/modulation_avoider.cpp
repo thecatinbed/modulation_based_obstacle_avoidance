@@ -200,6 +200,7 @@ Eigen::Vector2f ModulationAvoider::modulate_velocity(Eigen::Vector2f agent_posit
         double obstacle_radius = 0.2;
         // Eigen::Vector2f obstacle_position(neighbor_pose_sub.second.getPose().position.x, neighbor_pose_sub.second.getPose().position.y);
         Eigen::Vector2f obstacle_position(neighbor_pose_sub.second.actual_x, neighbor_pose_sub.second.actual_y);
+        Eigen::Vector2f neighbor_vel(neighbor_pose_sub.second.vel_x, neighbor_pose_sub.second.vel_y);
         // ROS_INFO("get neighbor position:%f, %f", obstacle_position(0), obstacle_position(1));
         if ((agent_position - obstacle_position).norm() > 0.4)
         {
@@ -227,7 +228,8 @@ Eigen::Vector2f ModulationAvoider::modulate_velocity(Eigen::Vector2f agent_posit
         eigen_vector_matrix.col(0) = normal_vector;
         eigen_vector_matrix.col(1) = tangent_vector;
         Eigen::Matrix2f eigen_vector_matrix_inv = eigen_vector_matrix.inverse();
-        Eigen::Vector2f v1 = eigen_vector_matrix_inv * cmd_velocity;
+        Eigen::Vector2f relative_vel = cmd_velocity - neighbor_vel;
+        Eigen::Vector2f v1 = eigen_vector_matrix_inv * relative_vel;
         // if (v1(0) > 0)
         // {
         //     eigen_value_matrix(0, 0) = 1;
@@ -239,7 +241,7 @@ Eigen::Vector2f ModulationAvoider::modulate_velocity(Eigen::Vector2f agent_posit
             v2 = 0.2 * v2 / v2.norm();
         }
 
-        modulated_velocity = eigen_vector_matrix * v2;
+        modulated_velocity = eigen_vector_matrix * v2 + neighbor_vel;
         // double xi = 1;
         // if(Gamma >= 1){
         //     xi = 1 - 1 / Gamma + 0.1;
