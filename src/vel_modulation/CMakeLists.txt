@@ -149,6 +149,7 @@ add_library(TwoWheel_Linear_controller
 add_executable(control_node src/control_node.cpp)
 add_executable(modulation_control_node src/control_node.cpp)
 add_executable(multi_control_node src/multi_control_node.cpp)
+add_executable(pub_obstacle src/pub_obstacle.cpp)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -181,7 +182,9 @@ target_link_libraries(modulation_control_node
   PID_controller
   ${catkin_LIBRARIES}
 )
-
+target_link_libraries(pub_obstacle
+  ${catkin_LIBRARIES}
+)
 #############
 ## Install ##
 #############

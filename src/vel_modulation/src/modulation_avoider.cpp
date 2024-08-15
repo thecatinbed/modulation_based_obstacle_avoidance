@@ -1,15 +1,15 @@
 #include <vel_modulation/modulation_avoider.h>
 
 ModulationAvoider::ModulationAvoider(){
-    // Eigen::Vector3f obs_1(1, -0.95, 0.35);
-    Eigen::Vector3f obs_1(1.9, 2, 0.2);
+    Eigen::Vector3f obs_1(2.1, -0.8, 0.2);
+    // Eigen::Vector3f obs_1(1.9, 2, 0.2);
     Eigen::Vector3f obs_2(-2.7, 2, 0.2);
     Eigen::Vector3f obs_3(-1.9, 2, 0.2);
     Eigen::Vector3f obs_4(2.7, 2, 0.2);
     obstacle_info.push_back(obs_1);
-    obstacle_info.push_back(obs_2);
-    obstacle_info.push_back(obs_3);
-    obstacle_info.push_back(obs_4);
+    // obstacle_info.push_back(obs_2);
+    // obstacle_info.push_back(obs_3);
+    // obstacle_info.push_back(obs_4);
 }
 
 double ModulationAvoider::get_Gamma(Eigen::Vector2f agent_position, Eigen::Vector2f obstacle_position, double radius){
@@ -118,7 +118,7 @@ Eigen::Vector2f ModulationAvoider::modulate_velocity(Eigen::Vector2f agent_posit
 }
 
 Eigen::Vector2f ModulationAvoider::modulate_velocity(Eigen::Vector2f agent_position, Eigen::Vector2f cmd_velocity, std::map<std::string, NeighborPoseSubscriber> &neighbor_pose_subscribers){
-    double rho = 20;
+    double rho = 2;
     Eigen::MatrixXf modulated_velocity_matrix = Eigen::MatrixXf::Zero(obstacle_info.size() + neighbor_pose_subscribers.size(), 2);
     Eigen::VectorXf weights = Eigen::VectorXf::Zero(obstacle_info.size() + neighbor_pose_subscribers.size());
     Eigen::Vector2f modulated_velocity = Eigen::Vector2f::Zero();
@@ -128,7 +128,7 @@ Eigen::Vector2f ModulationAvoider::modulate_velocity(Eigen::Vector2f agent_posit
         double obstacle_radius = obstacle(2);
         Eigen::Vector2f obstacle_position(obstacle(0), obstacle(1));
 
-        if ((agent_position - obstacle_position).norm() > 0.5)
+        if ((agent_position - obstacle_position).norm() > 0.8)
         {
             continue;   // 障碍物在感知范围外
         }
@@ -142,12 +142,12 @@ Eigen::Vector2f ModulationAvoider::modulate_velocity(Eigen::Vector2f agent_posit
             weights(i) = pow((1 / (Gamma - 1)), 1);
         }
         
-        Eigen::Vector2f eigen_value(1 - pow(2 / Gamma, 1 / rho), 1 + pow( 1 / Gamma, 1 / rho));
-        if (eigen_value(0) < 0)
-        {
-            eigen_value(0) = 0;
-        }
-        
+        Eigen::Vector2f eigen_value(1 - pow(4 / Gamma, 1 / rho), 1 + pow( 1 / Gamma, 1 / rho));
+        // if (eigen_value(0) < 0)
+        // {
+        //     eigen_value(0) = 0;
+        // }
+        // ROS_INFO("meet obstacle");
         Eigen::Matrix2f eigen_value_matrix = eigen_value.asDiagonal();
         Eigen::Matrix2f eigen_vector_matrix;
         eigen_vector_matrix.col(0) = normal_vector;
@@ -193,16 +193,16 @@ Eigen::Vector2f ModulationAvoider::modulate_velocity(Eigen::Vector2f agent_posit
         //     modulated_velocity =  0.4 * modulated_velocity / modulated_velocity.norm();
         // }
     }
-    rho = 20;
+    rho = 10;
     int i = 0;
     for(auto &neighbor_pose_sub:neighbor_pose_subscribers){
         int index = i + obstacle_info.size();
-        double obstacle_radius = 0.2;
+        double obstacle_radius = 0.3;
         // Eigen::Vector2f obstacle_position(neighbor_pose_sub.second.getPose().position.x, neighbor_pose_sub.second.getPose().position.y);
         Eigen::Vector2f obstacle_position(neighbor_pose_sub.second.actual_x, neighbor_pose_sub.second.actual_y);
         Eigen::Vector2f neighbor_vel(neighbor_pose_sub.second.vel_x, neighbor_pose_sub.second.vel_y);
         // ROS_INFO("get neighbor position:%f, %f", obstacle_position(0), obstacle_position(1));
-        if ((agent_position - obstacle_position).norm() > 0.4)
+        if ((agent_position - obstacle_position).norm() > 0.5)
         {
             continue;   // 障碍物在感知范围外
         }
@@ -215,9 +215,9 @@ Eigen::Vector2f ModulationAvoider::modulate_velocity(Eigen::Vector2f agent_posit
         }else{
             weights(index) = pow((1 / (Gamma - 1)), 4);
         }
+        // weights(index) = 0;
         
-        
-        Eigen::Vector2f eigen_value(1 - pow(2 / Gamma, 1 / rho), 1 + pow( 1 / Gamma, 1 / rho));
+        Eigen::Vector2f eigen_value(1 - pow(1 / Gamma, 1 / rho), 1 + pow( 1 / Gamma, 1 / rho));
         if (eigen_value(0) < 0)
         {
             eigen_value(0) = 0;
@@ -230,10 +230,10 @@ Eigen::Vector2f ModulationAvoider::modulate_velocity(Eigen::Vector2f agent_posit
         Eigen::Matrix2f eigen_vector_matrix_inv = eigen_vector_matrix.inverse();
         Eigen::Vector2f relative_vel = cmd_velocity - neighbor_vel;
         Eigen::Vector2f v1 = eigen_vector_matrix_inv * relative_vel;
-        // if (v1(0) > 0)
-        // {
-        //     eigen_value_matrix(0, 0) = 1;
-        // }
+        if (v1(0) > 0)
+        {
+            eigen_value_matrix(0, 0) = 1;
+        }
         Eigen::Vector2f v2 = eigen_value_matrix * v1;
         
         if (v2.norm() > 0.2)

@@ -22,7 +22,8 @@ class NeighborPoseSubscriber
         };
         NeighborPoseSubscriber(ros::NodeHandle& nh, std::string robot_name);
         void odomCallback(const nav_msgs::Odometry::ConstPtr &pmsg);
-        geometry_msgs::Pose getPose() const { return pose; }
+        void odomCallback(const geometry_msgs::PoseStamped::ConstPtr &pmsg);
+        // geometry_msgs::Pose getPose() const { return pose; }
     private:
         ros::Subscriber odom_sub_;
         geometry_msgs::Pose pose;

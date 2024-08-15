@@ -97,7 +97,7 @@ int main(int argc, char** argv){
     // 初始化订阅者以及发布者
     ros::Subscriber odom_sub = nh.subscribe("odom", 1, TwoWheel_odom_callback);
     ros::Subscriber traj_sub = nh.subscribe("trajectory_cmd", 1, Trajectory_cmd_callback);
-    ros::Subscriber car_pose_sub = nh.subscribe("/vrpn_client_node/Tracker2/pose", 1, car0poseCallback);
+    ros::Subscriber car_pose_sub = nh.subscribe("/vrpn_client_node/robot_2/pose", 1, car0poseCallback);
     ros::Publisher cmd_pub;
     if (use_simulation)
     {
@@ -140,7 +140,7 @@ int main(int argc, char** argv){
             actual_x = pose_.pose.position.x;
             actual_y = pose_.pose.position.y;
         }
-        // ROS_INFO("x:%f, y:%f", actual_x, actual_y);
+        ROS_INFO("x:%f, y:%f", actual_x, actual_y);
         tf::Matrix3x3 mat(quaternion);
         mat.getRPY(roll, pitch, yaw);
         std::vector<double> control_output = controller.get_vel_and_angularVel((traj.x - actual_x), 

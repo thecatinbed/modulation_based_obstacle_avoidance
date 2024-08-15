@@ -120,8 +120,8 @@ std::vector<double>  TwoWheel_Linear_controller::get_vel_and_angularVel(double x
     double desire_velocity_y = position_x_controller.calculate_control_ouput(y_error);
     for (auto &neighbor_pose_sub:neighbor_pose_subscribers)
     {
-        desire_velocity_x += 1.5 * (x_error - (neighbor_pose_sub.second.desire_x - neighbor_pose_sub.second.actual_x));
-        desire_velocity_y += 1.5 * (y_error - (neighbor_pose_sub.second.desire_y - neighbor_pose_sub.second.actual_y));
+        desire_velocity_x += 0.1 * (x_error - (neighbor_pose_sub.second.desire_x - neighbor_pose_sub.second.actual_x));
+        desire_velocity_y += 0.1 * (y_error - (neighbor_pose_sub.second.desire_y - neighbor_pose_sub.second.actual_y));
     }
     
     // desire_velocity_x = 1;

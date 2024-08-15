@@ -12,6 +12,7 @@ nav_msgs::Odometry odom;        // gazebo仿真时的机器人位姿
 geometry_msgs::PoseStamped pose_; // 动捕环境下的机器人位姿
 geometry_msgs::Twist cmd;
 geometry_msgs::Point traj_;
+geometry_msgs::Pose desire_traj;
 
 struct Trajectory {
     double x;
@@ -20,11 +21,11 @@ struct Trajectory {
 
 Trajectory get_car_trajectory(double t, char robot_num){
     Trajectory traj;
-    // traj.x = 1 * (1 + cos(0.2 * t - M_PI));
-    // traj.y = 1 * (0 + sin(0.2 * t - M_PI));
+    traj.x = 1 * (1 + cos(0.1 * t - M_PI));
+    traj.y = 1 * (0 + sin(0.1 * t - M_PI));
     
-    traj.x = 2 * (0 + cos(0.1 * t - M_PI / 2));
-    traj.y = 2 * (1 + sin(0.1 * t - M_PI / 2));
+    // traj.x = 2 * (0 + cos(0.1 * t - M_PI / 2));
+    // traj.y = 2 * (1 + sin(0.1 * t - M_PI / 2));
     // if (t <= 30)
     // {
     //     traj.x = -4;
@@ -33,14 +34,14 @@ Trajectory get_car_trajectory(double t, char robot_num){
     //     traj.x = 5.0;
     //     traj.y = 2;
     // }
-    if (robot_num == '0')
+    if (robot_num == '1')
     {
-        traj.x += 0.5;
-        traj.y += 0.5;
-    }else if (robot_num == '1')
+        traj.x += 0.346;
+        traj.y -= 0.6;
+    }else if (robot_num == '2')
     {
-        traj.x += 0;
-        traj.y += 1.0;
+        traj.x += 0.69;
+        traj.y += 0.0;
     }else{
         // traj.x += 0;
         // traj.y += 0.8;
@@ -52,7 +53,7 @@ void TwoWheel_odom_callback(const nav_msgs::Odometry::ConstPtr &pmsg){
     odom = *pmsg;
 }
 
-void car0poseCallback(const geometry_msgs::PoseStamped::ConstPtr &posemsg)
+void poseCallback(const geometry_msgs::PoseStamped::ConstPtr &posemsg)
 {
     pose_ = *posemsg;
 }
@@ -113,21 +114,25 @@ int main(int argc, char** argv){
     char robot_number = robot_ns.back();
     if (!std::isdigit(robot_number))
     {
-        robot_number = '0';
+        robot_number = '1';
     }
     ROS_INFO("The number of this robot is %c", robot_number);
     switch (robot_number)
     {
-    case '0':
-        robot_names = {"robot_1", "robot_2"};
+    case '1':
+        robot_names = {"robot_2", "robot_3"};
+        // robot_names = {"robot_3"};
         break;
     
-    case '1':
-        robot_names = {"robot_0", "robot_2"};
+    case '2':
+        robot_names = {"robot_3"};
+        // robot_names = {};
         break;
 
-    case '2':
-        robot_names = {"robot_0", "robot_1"};
+    case '3':
+        // robot_names = {"robot_1", "robot_2"};
+        robot_names = {"robot_1"};
+        // robot_names = {};
         break;
 
     default:
@@ -140,17 +145,26 @@ int main(int argc, char** argv){
         // neighbor_pose_subscribers[robot_name] = NeighborPoseSubscriber(nh, robot_name);
         // NeighborPoseSubscriber neighbor_sub = NeighborPoseSubscriber();
         neighbor_pose_subscribers[robot_name] = NeighborPoseSubscriber();
-        std::string topic_name = "/" + robot_name + "/odom";
-        neighbor_odom_sub[index] = nh.subscribe(topic_name, 10, &NeighborPoseSubscriber::odomCallback, &neighbor_pose_subscribers[robot_name] );
+        if (use_simulation)
+        {
+            std::string topic_name = "/" + robot_name + "/odom";
+            neighbor_odom_sub[index] = nh.subscribe<nav_msgs::Odometry>(topic_name, 10, &NeighborPoseSubscriber::odomCallback, &neighbor_pose_subscribers[robot_name]);
+        }
+        else
+        {
+            std::string topic_name =  "/vrpn_client_node/" + robot_name + "/pose";
+            neighbor_odom_sub[index] = nh.subscribe<geometry_msgs::PoseStamped>(topic_name, 10, &NeighborPoseSubscriber::odomCallback, &neighbor_pose_subscribers[robot_name]);
+        }
         index ++;
     }
     // 订阅自身位姿和期望轨迹信息
     ros::Subscriber odom_sub = nh.subscribe("odom", 1, TwoWheel_odom_callback);            // 仿真使用
     ros::Subscriber traj_sub = nh.subscribe("trajectory_cmd", 1, Trajectory_cmd_callback); // 暂时无用
-    ros::Subscriber car_pose_sub = nh.subscribe("/vrpn_client_node/Tracker2/pose", 1, car0poseCallback); // 实机使用
+    std::string odom_topic_name = "/vrpn_client_node/" + robot_ns + "/pose";
+    ros::Subscriber car_pose_sub = nh.subscribe(odom_topic_name, 1, poseCallback); // 实机使用
     // 控制命令发布者
     ros::Publisher cmd_pub = nh.advertise<geometry_msgs::Twist>("cmd_vel", 1);
-
+    ros::Publisher desire_traj_pub = nh.advertise<geometry_msgs::Pose>("desire_traj", 1);
     // 初始化控制器及其增益
     // 用从参数服务器读取的参数初始化控制器
     TwoWheel_Linear_controller controller(linear_kp, linear_ki, linear_kd,
@@ -166,13 +180,15 @@ int main(int argc, char** argv){
         ros::Time current_time = ros::Time::now();
         ros::Duration duration = current_time - starting_time;
         Trajectory traj = get_car_trajectory(duration.toSec(), robot_number);
+        desire_traj.position.x = traj.x;
+        desire_traj.position.y = traj.y;
+        desire_traj_pub.publish(desire_traj);
         for (auto &neighbor_pose_sub:neighbor_pose_subscribers)
         {
             Trajectory neighbor_traj = get_car_trajectory(duration.toSec(), neighbor_pose_sub.first.back());
             neighbor_pose_sub.second.desire_x = neighbor_traj.x;
             neighbor_pose_sub.second.desire_y = neighbor_traj.y;
         }
-        
         // 将四元数转换为欧拉角
         // 将 geometry_msgs::Quaternion 转换为 tf::Quaternion
         if (use_simulation)
@@ -181,7 +197,6 @@ int main(int argc, char** argv){
             quaternion.setValue(odom.pose.pose.orientation.x, odom.pose.pose.orientation.y, odom.pose.pose.orientation.z, odom.pose.pose.orientation.w);
             actual_x = odom.pose.pose.position.x;
             actual_y = odom.pose.pose.position.y;
-
         }
         else
         {
@@ -201,7 +216,7 @@ int main(int argc, char** argv){
                                                                                 neighbor_pose_subscribers);
         // for (auto &neighbor_sub:neighbor_pose_subscribers)
         // {
-        //     std::cout << neighbor_sub.second.x << neighbor_sub.second.y << std::endl;
+        //     std::cout << neighbor_sub.second.actual_x << neighbor_sub.second.actual_y << std::endl;
         // }
                                                
         cmd.linear.x = limit_range(control_output[0], 0.3);
