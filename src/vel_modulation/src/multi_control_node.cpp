@@ -21,11 +21,11 @@ struct Trajectory {
 
 Trajectory get_car_trajectory(double t, char robot_num){
     Trajectory traj;
-    traj.x = 1 * (1 + cos(0.1 * t - M_PI));
-    traj.y = 1 * (0 + sin(0.1 * t - M_PI));
+    // traj.x = 1 * (1 + cos(0.1 * t - M_PI));
+    // traj.y = 1 * (0 + sin(0.1 * t - M_PI));
     
-    // traj.x = 2 * (0 + cos(0.1 * t - M_PI / 2));
-    // traj.y = 2 * (1 + sin(0.1 * t - M_PI / 2));
+    traj.x = 2 * (0 + cos(0.1 * t - M_PI / 2));
+    traj.y = 2 * (1 + sin(0.1 * t - M_PI / 2));
     // if (t <= 30)
     // {
     //     traj.x = -4;
@@ -117,6 +117,7 @@ int main(int argc, char** argv){
         robot_number = '1';
     }
     ROS_INFO("The number of this robot is %c", robot_number);
+    // 通信拓扑构建
     switch (robot_number)
     {
     case '1':

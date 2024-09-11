@@ -149,6 +149,7 @@ add_library(TwoWheel_Linear_controller
 add_executable(control_node src/control_node.cpp)
 add_executable(modulation_control_node src/control_node.cpp)
 add_executable(multi_control_node src/multi_control_node.cpp)
+add_executable(multi_control_node_APF src/multi_control_node_APF.cpp)
 add_executable(pub_obstacle src/pub_obstacle.cpp)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -161,6 +162,8 @@ add_executable(pub_obstacle src/pub_obstacle.cpp)
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
+add_executable(joy_node src/utils/joy_node.cpp)
+target_link_libraries(joy_node ${catkin_LIBRARIES})
 target_link_libraries(control_node
   TwoWheel_Linear_controller
   modulation_avoider
@@ -169,6 +172,13 @@ target_link_libraries(control_node
   ${catkin_LIBRARIES}
 )
 target_link_libraries(multi_control_node
+  TwoWheel_Linear_controller
+  modulation_avoider
+  NeighborPoseSubscriber
+  PID_controller
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(multi_control_node_APF
   TwoWheel_Linear_controller
   modulation_avoider
   NeighborPoseSubscriber

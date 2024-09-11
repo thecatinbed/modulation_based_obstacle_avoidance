@@ -1,13 +1,22 @@
 #include <vel_modulation/modulation_avoider.h>
 
 ModulationAvoider::ModulationAvoider(){
-    Eigen::Vector3f obs_1(2.1, -0.8, 0.2);
+    // Eigen::Vector3f obs_1(2.1, -0.8, 0.2);
     // Eigen::Vector3f obs_1(1.9, 2, 0.2);
-    Eigen::Vector3f obs_2(-2.7, 2, 0.2);
-    Eigen::Vector3f obs_3(-1.9, 2, 0.2);
-    Eigen::Vector3f obs_4(2.7, 2, 0.2);
-    obstacle_info.push_back(obs_1);
+    // Eigen::Vector3f obs_1(1.9, 2, 0.2);
+    // Eigen::Vector3f obs_2(-2.7, 2, 0.2);
+    // Eigen::Vector3f obs_3(-1.9, 2, 0.2);
+    // Eigen::Vector3f obs_4(2.7, 2, 0.2);
+    // obstacle_info.push_back(obs_1);
     // obstacle_info.push_back(obs_2);
+    // obstacle_info.push_back(obs_3);
+    // obstacle_info.push_back(obs_4);
+    Eigen::Vector3f obs_1(1.9, 2, 0.2);
+    Eigen::Vector3f obs_2(-2.5, 2, 0.2);
+    // Eigen::Vector3f obs_3(-1.9, 2, 0.2);
+    // Eigen::Vector3f obs_4(2.7, 2, 0.2);
+    obstacle_info.push_back(obs_1);
+    obstacle_info.push_back(obs_2);
     // obstacle_info.push_back(obs_3);
     // obstacle_info.push_back(obs_4);
 }
@@ -193,11 +202,11 @@ Eigen::Vector2f ModulationAvoider::modulate_velocity(Eigen::Vector2f agent_posit
         //     modulated_velocity =  0.4 * modulated_velocity / modulated_velocity.norm();
         // }
     }
-    rho = 10;
+    rho = 5;
     int i = 0;
     for(auto &neighbor_pose_sub:neighbor_pose_subscribers){
         int index = i + obstacle_info.size();
-        double obstacle_radius = 0.3;
+        double obstacle_radius = 0.2;
         // Eigen::Vector2f obstacle_position(neighbor_pose_sub.second.getPose().position.x, neighbor_pose_sub.second.getPose().position.y);
         Eigen::Vector2f obstacle_position(neighbor_pose_sub.second.actual_x, neighbor_pose_sub.second.actual_y);
         Eigen::Vector2f neighbor_vel(neighbor_pose_sub.second.vel_x, neighbor_pose_sub.second.vel_y);
@@ -235,12 +244,12 @@ Eigen::Vector2f ModulationAvoider::modulate_velocity(Eigen::Vector2f agent_posit
             eigen_value_matrix(0, 0) = 1;
         }
         Eigen::Vector2f v2 = eigen_value_matrix * v1;
-        
+        // 限速
         if (v2.norm() > 0.2)
         {
             v2 = 0.2 * v2 / v2.norm();
         }
-
+        // 将速度转换回世界坐标系
         modulated_velocity = eigen_vector_matrix * v2 + neighbor_vel;
         // double xi = 1;
         // if(Gamma >= 1){

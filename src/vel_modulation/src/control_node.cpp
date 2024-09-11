@@ -19,10 +19,10 @@ struct Trajectory {
 
 Trajectory get_car_trajectory(double t){
     Trajectory traj;
-    traj.x = 1 * (1 + cos(0.2 * t - M_PI));
-    traj.y = 1 * (0 + sin(0.2 * t - M_PI));
-    // traj.x = 2 * (0 + cos(0.1 * t - M_PI / 2));
-    // traj.y = 2 * (1 + sin(0.1 * t - M_PI / 2));
+    // traj.x = 1 * (1 + cos(0.2 * t - M_PI));
+    // traj.y = 1 * (0 + sin(0.2 * t - M_PI));
+    traj.x = 2 * (0 + cos(0.1 * t - M_PI / 2));
+    traj.y = 2 * (1 + sin(0.1 * t - M_PI / 2));
     // if (t <= 30)
     // {
     //     traj.x = -4;
@@ -131,7 +131,6 @@ int main(int argc, char** argv){
             quaternion.setValue(odom.pose.pose.orientation.x, odom.pose.pose.orientation.y, odom.pose.pose.orientation.z, odom.pose.pose.orientation.w);
             actual_x = odom.pose.pose.position.x;
             actual_y = odom.pose.pose.position.y;
-
         }
         else
         {
@@ -140,14 +139,19 @@ int main(int argc, char** argv){
             actual_x = pose_.pose.position.x;
             actual_y = pose_.pose.position.y;
         }
-        ROS_INFO("x:%f, y:%f", actual_x, actual_y);
+        // ROS_INFO("x:%f, y:%f", actual_x, actual_y);
         tf::Matrix3x3 mat(quaternion);
         mat.getRPY(roll, pitch, yaw);
-        std::vector<double> control_output = controller.get_vel_and_angularVel((traj.x - actual_x), 
-                                                                               (traj.y - actual_y),
+        // std::vector<double> control_output = controller.get_vel_and_angularVel((traj.x - actual_x), 
+        //                                                                        (traj.y - actual_y),
+        //                                                                         yaw,
+        //                                                                         actual_x,
+        //                                                                         actual_y);
+        std::vector<double> control_output = controller.get_vel_and_angularVel_APF(traj.x, 
+                                                                                traj.y,
                                                                                 yaw,
                                                                                 actual_x,
-                                                                                actual_y);                                       
+                                                                                actual_y);                                      
         cmd.linear.x = limit_range(control_output[0], 0.3);
         // cmd.linear.x = 0.0;
         cmd.angular.z = limit_range(control_output[1], 0.8);

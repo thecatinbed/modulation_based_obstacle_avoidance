@@ -114,7 +114,7 @@ std::vector<double> TwoWheel_Linear_controller::get_vel_and_angularVel(double x_
 }
 
 std::vector<double>  TwoWheel_Linear_controller::get_vel_and_angularVel(double x_error, double y_error, double theta, double x, double y, std::map<std::string, NeighborPoseSubscriber> neighbor_pose_subscribers){
-     std::vector<double> output;
+    std::vector<double> output;
     // 计算位置控制量
     double desire_velocity_x = position_x_controller.calculate_control_ouput(x_error);
     double desire_velocity_y = position_x_controller.calculate_control_ouput(y_error);
@@ -161,9 +161,145 @@ std::vector<double>  TwoWheel_Linear_controller::get_vel_and_angularVel(double x
         }
     }
     
-    // 计算期望姿态控制量
+    // 计算期望姿态控制量，保存并返回结果
     double desire_angular_valocity = theta_controller.calculate_control_ouput(error_theta);
     output.push_back(modulated_velocity_norm);
+    output.push_back(desire_angular_valocity);
+    return output;
+}
+
+std::vector<double>  TwoWheel_Linear_controller::get_vel_and_angularVel_APF(double desire_x, double desire_y, double theta, double actual_x, double actual_y){
+    std::vector<double> output;
+    const double K_att = 1.5, K_rep = 0.25, R_obs = 0.5;
+    // 计算位置控制量
+    Eigen::Vector2f force_att, force_rep, force_all;
+    force_rep << 0, 0;
+    double att_distance = sqrt(pow(desire_x - actual_x, 2) + pow(desire_y - actual_y, 2));
+    if (att_distance > 1){
+        force_att << K_att * 1 / att_distance * (desire_x - actual_x),
+                 K_att * 1 / att_distance * (desire_y - actual_y);
+    }else{
+        force_att << K_att * (desire_x - actual_x),
+                 K_att * (desire_y - actual_y);
+    }
+    ROS_INFO("attraction is: %f, %f", force_att(0), force_att(1));
+    for (auto &obstacle:avoider.obstacle_info){
+        double rep_distance = sqrt(pow(actual_x - obstacle(0), 2) + pow(actual_y - obstacle(1), 2));
+        Eigen::Vector2f temp_rep_force;
+        if (rep_distance <= R_obs){
+            temp_rep_force << K_rep * (1 / R_obs - 1 / rep_distance) * (pow(1 / rep_distance, 2)) * (obstacle(0) - actual_x) / rep_distance,
+                            K_rep * (1 / R_obs - 1 / rep_distance) * (pow(1 / rep_distance, 2)) * (obstacle(1) - actual_y) / rep_distance;
+            force_rep = force_rep + temp_rep_force;
+        }
+    }
+    force_all = force_att + force_rep;
+    double velocity_norm = force_all.norm();
+    // 计算期望姿态
+    double desire_theta = atan2(force_all(1), force_all(0));
+    // desire_theta = 1;
+    // double desire_theta = atan2(cmd_velocity(1), cmd_velocity(0));
+    if (desire_theta < 0){
+        desire_theta += 2 * M_PI;
+    }
+    if (theta < 0){
+        theta += 2 * M_PI;
+    }
+    double error_theta;
+    if (abs(desire_theta - theta) > M_PI){
+        if (desire_theta > theta){
+            error_theta  = (desire_theta - theta) - 2 * M_PI;
+        }else{
+            error_theta = (desire_theta - theta) + 2 * M_PI;
+        }
+    }else{
+        error_theta = desire_theta - theta;
+    }
+    if (abs(error_theta) > M_PI / 2){
+        velocity_norm = -velocity_norm;
+        if (error_theta > 0){
+            error_theta = M_PI / 2 - error_theta;
+        }else{
+            error_theta = - error_theta - M_PI / 2;
+        }
+    }
+    
+    // 计算期望姿态控制量
+    double desire_angular_valocity = theta_controller.calculate_control_ouput(error_theta);
+    output.push_back(velocity_norm);
+    output.push_back(desire_angular_valocity);
+    return output;
+}
+
+std::vector<double>  TwoWheel_Linear_controller::get_vel_and_angularVel_APF(double desire_x, double desire_y, double theta, double actual_x, double actual_y, std::map<std::string, NeighborPoseSubscriber> neighbor_pose_subscribers){
+    std::vector<double> output;
+    const double K_att = 1.5, K_rep = 0.2, R_obs = 0.5, R_neighbor = 0.4;
+    // 计算位置控制量
+    Eigen::Vector2f force_att, force_rep, force_all;
+    force_rep << 0, 0;
+    double att_distance = sqrt(pow(desire_x - actual_x, 2) + pow(desire_y - actual_y, 2));
+    if (att_distance > 1){
+        force_att << K_att * 1 / att_distance * (desire_x - actual_x),
+                 K_att * 1 / att_distance * (desire_y - actual_y);
+    }else{
+        force_att << K_att * (desire_x - actual_x),
+                 K_att * (desire_y - actual_y);
+    }
+    for (auto &neighbor_pose_sub:neighbor_pose_subscribers)
+    {
+        force_att(0) += 2.0 * ((desire_x - actual_x) - (neighbor_pose_sub.second.desire_x - neighbor_pose_sub.second.actual_x));
+        force_att(1) += 2.0 * ((desire_y - actual_y) - (neighbor_pose_sub.second.desire_y - neighbor_pose_sub.second.actual_y));
+        double rep_distance = sqrt(pow(actual_x - neighbor_pose_sub.second.actual_x, 2) + pow(actual_y - neighbor_pose_sub.second.actual_y, 2));
+        Eigen::Vector2f temp_rep_force;
+        if (rep_distance <= R_neighbor){
+            temp_rep_force << K_rep * (1 / R_neighbor - 1 / rep_distance) * (pow(1 / rep_distance, 2)) * (neighbor_pose_sub.second.actual_x - actual_x) / rep_distance,
+                            K_rep * (1 / R_neighbor - 1 / rep_distance) * (pow(1 / rep_distance, 2)) * (neighbor_pose_sub.second.actual_y - actual_y) / rep_distance;
+            force_rep = force_rep + temp_rep_force;
+        }
+    }
+    // ROS_INFO("attraction is: %f, %f", force_att(0), force_att(1));
+    for (auto &obstacle:avoider.obstacle_info){
+        double rep_distance = sqrt(pow(actual_x - obstacle(0), 2) + pow(actual_y - obstacle(1), 2));
+        Eigen::Vector2f temp_rep_force;
+        if (rep_distance <= R_obs){
+            temp_rep_force << K_rep * (1 / R_obs - 1 / rep_distance) * (pow(1 / rep_distance, 2)) * (obstacle(0) - actual_x) / rep_distance,
+                            K_rep * (1 / R_obs - 1 / rep_distance) * (pow(1 / rep_distance, 2)) * (obstacle(1) - actual_y) / rep_distance;
+            force_rep = force_rep + temp_rep_force;
+        }
+    }
+    force_all = force_att + force_rep;
+    double velocity_norm = force_all.norm();
+    // 计算期望姿态
+    double desire_theta = atan2(force_all(1), force_all(0));
+    // desire_theta = 1;
+    // double desire_theta = atan2(cmd_velocity(1), cmd_velocity(0));
+    if (desire_theta < 0){
+        desire_theta += 2 * M_PI;
+    }
+    if (theta < 0){
+        theta += 2 * M_PI;
+    }
+    double error_theta;
+    if (abs(desire_theta - theta) > M_PI){
+        if (desire_theta > theta){
+            error_theta  = (desire_theta - theta) - 2 * M_PI;
+        }else{
+            error_theta = (desire_theta - theta) + 2 * M_PI;
+        }
+    }else{
+        error_theta = desire_theta - theta;
+    }
+    if (abs(error_theta) > M_PI / 2){
+        velocity_norm = -velocity_norm;
+        if (error_theta > 0){
+            error_theta = M_PI / 2 - error_theta;
+        }else{
+            error_theta = - error_theta - M_PI / 2;
+        }
+    }
+    
+    // 计算期望姿态控制量
+    double desire_angular_valocity = theta_controller.calculate_control_ouput(error_theta);
+    output.push_back(velocity_norm);
     output.push_back(desire_angular_valocity);
     return output;
 }

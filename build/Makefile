@@ -350,6 +350,19 @@ rosgraph_msgs_generate_messages_lisp/fast:
 .PHONY : rosgraph_msgs_generate_messages_lisp/fast
 
 #=============================================================================
+# Target rules for targets named rosgraph_msgs_generate_messages_eus
+
+# Build rule for target.
+rosgraph_msgs_generate_messages_eus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 rosgraph_msgs_generate_messages_eus
+.PHONY : rosgraph_msgs_generate_messages_eus
+
+# fast build rule for target.
+rosgraph_msgs_generate_messages_eus/fast:
+	$(MAKE) -f vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build
+.PHONY : rosgraph_msgs_generate_messages_eus/fast
+
+#=============================================================================
 # Target rules for targets named std_msgs_generate_messages_cpp
 
 # Build rule for target.
@@ -519,6 +532,19 @@ NeighborPoseSubscriber/fast:
 .PHONY : NeighborPoseSubscriber/fast
 
 #=============================================================================
+# Target rules for targets named joy_node
+
+# Build rule for target.
+joy_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 joy_node
+.PHONY : joy_node
+
+# fast build rule for target.
+joy_node/fast:
+	$(MAKE) -f vel_modulation/CMakeFiles/joy_node.dir/build.make vel_modulation/CMakeFiles/joy_node.dir/build
+.PHONY : joy_node/fast
+
+#=============================================================================
 # Target rules for targets named TwoWheel_Linear_controller
 
 # Build rule for target.
@@ -530,6 +556,19 @@ TwoWheel_Linear_controller: cmake_check_build_system
 TwoWheel_Linear_controller/fast:
 	$(MAKE) -f vel_modulation/CMakeFiles/TwoWheel_Linear_controller.dir/build.make vel_modulation/CMakeFiles/TwoWheel_Linear_controller.dir/build
 .PHONY : TwoWheel_Linear_controller/fast
+
+#=============================================================================
+# Target rules for targets named multi_control_node_APF
+
+# Build rule for target.
+multi_control_node_APF: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 multi_control_node_APF
+.PHONY : multi_control_node_APF
+
+# fast build rule for target.
+multi_control_node_APF/fast:
+	$(MAKE) -f vel_modulation/CMakeFiles/multi_control_node_APF.dir/build.make vel_modulation/CMakeFiles/multi_control_node_APF.dir/build
+.PHONY : multi_control_node_APF/fast
 
 #=============================================================================
 # Target rules for targets named pub_obstacle
@@ -570,19 +609,6 @@ roscpp_generate_messages_eus/fast:
 	$(MAKE) -f vel_modulation/CMakeFiles/roscpp_generate_messages_eus.dir/build.make vel_modulation/CMakeFiles/roscpp_generate_messages_eus.dir/build
 .PHONY : roscpp_generate_messages_eus/fast
 
-#=============================================================================
-# Target rules for targets named rosgraph_msgs_generate_messages_eus
-
-# Build rule for target.
-rosgraph_msgs_generate_messages_eus: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 rosgraph_msgs_generate_messages_eus
-.PHONY : rosgraph_msgs_generate_messages_eus
-
-# fast build rule for target.
-rosgraph_msgs_generate_messages_eus/fast:
-	$(MAKE) -f vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build
-.PHONY : rosgraph_msgs_generate_messages_eus/fast
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -610,6 +636,7 @@ help:
 	@echo "... modulation_control_node"
 	@echo "... multi_control_node"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
+	@echo "... rosgraph_msgs_generate_messages_eus"
 	@echo "... std_msgs_generate_messages_cpp"
 	@echo "... roscpp_generate_messages_nodejs"
 	@echo "... std_msgs_generate_messages_eus"
@@ -623,11 +650,12 @@ help:
 	@echo "... PID_controller"
 	@echo "... modulation_avoider"
 	@echo "... NeighborPoseSubscriber"
+	@echo "... joy_node"
 	@echo "... TwoWheel_Linear_controller"
+	@echo "... multi_control_node_APF"
 	@echo "... pub_obstacle"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
 	@echo "... roscpp_generate_messages_eus"
-	@echo "... rosgraph_msgs_generate_messages_eus"
 .PHONY : help
 
 

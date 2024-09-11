@@ -13,9 +13,13 @@ class TwoWheel_Linear_controller{
         TwoWheel_Linear_controller(double _kpx = 0, double _kix = 0, double _kdx = 0, 
                                     double _kpy = 0, double _kiy = 0, double _kdy = 0, 
                                     double _kptheta = 0, double _kitheta = 0, double _kdtheta = 0);
+        // 引导向量场避障
         std::vector<double>  get_vel_and_angularVel(double, double, double, double, double, visualization_msgs::Marker, ros::Publisher, visualization_msgs::Marker, ros::Publisher);
         std::vector<double>  get_vel_and_angularVel(double, double, double, double, double);
         std::vector<double>  get_vel_and_angularVel(double, double, double, double, double, std::map<std::string, NeighborPoseSubscriber>);
+        // 人工势场法避障
+        std::vector<double>  get_vel_and_angularVel_APF(double, double, double, double, double);
+        std::vector<double>  get_vel_and_angularVel_APF(double, double, double, double, double, std::map<std::string, NeighborPoseSubscriber>);
     private:
         PID_controller position_x_controller;
         PID_controller position_y_controller;

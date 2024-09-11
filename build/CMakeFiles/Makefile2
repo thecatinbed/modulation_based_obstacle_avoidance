@@ -142,7 +142,9 @@ vel_modulation/all: vel_modulation/CMakeFiles/control_node.dir/all
 vel_modulation/all: vel_modulation/CMakeFiles/PID_controller.dir/all
 vel_modulation/all: vel_modulation/CMakeFiles/modulation_avoider.dir/all
 vel_modulation/all: vel_modulation/CMakeFiles/NeighborPoseSubscriber.dir/all
+vel_modulation/all: vel_modulation/CMakeFiles/joy_node.dir/all
 vel_modulation/all: vel_modulation/CMakeFiles/TwoWheel_Linear_controller.dir/all
+vel_modulation/all: vel_modulation/CMakeFiles/multi_control_node_APF.dir/all
 vel_modulation/all: vel_modulation/CMakeFiles/pub_obstacle.dir/all
 
 .PHONY : vel_modulation/all
@@ -158,6 +160,7 @@ vel_modulation/clean: vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_
 vel_modulation/clean: vel_modulation/CMakeFiles/modulation_control_node.dir/clean
 vel_modulation/clean: vel_modulation/CMakeFiles/multi_control_node.dir/clean
 vel_modulation/clean: vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean
+vel_modulation/clean: vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
 vel_modulation/clean: vel_modulation/CMakeFiles/std_msgs_generate_messages_cpp.dir/clean
 vel_modulation/clean: vel_modulation/CMakeFiles/roscpp_generate_messages_nodejs.dir/clean
 vel_modulation/clean: vel_modulation/CMakeFiles/std_msgs_generate_messages_eus.dir/clean
@@ -171,11 +174,12 @@ vel_modulation/clean: vel_modulation/CMakeFiles/std_msgs_generate_messages_py.di
 vel_modulation/clean: vel_modulation/CMakeFiles/PID_controller.dir/clean
 vel_modulation/clean: vel_modulation/CMakeFiles/modulation_avoider.dir/clean
 vel_modulation/clean: vel_modulation/CMakeFiles/NeighborPoseSubscriber.dir/clean
+vel_modulation/clean: vel_modulation/CMakeFiles/joy_node.dir/clean
 vel_modulation/clean: vel_modulation/CMakeFiles/TwoWheel_Linear_controller.dir/clean
+vel_modulation/clean: vel_modulation/CMakeFiles/multi_control_node_APF.dir/clean
 vel_modulation/clean: vel_modulation/CMakeFiles/pub_obstacle.dir/clean
 vel_modulation/clean: vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
 vel_modulation/clean: vel_modulation/CMakeFiles/roscpp_generate_messages_eus.dir/clean
-vel_modulation/clean: vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
 
 .PHONY : vel_modulation/clean
 
@@ -487,7 +491,7 @@ vel_modulation/CMakeFiles/modulation_control_node.dir/all: vel_modulation/CMakeF
 vel_modulation/CMakeFiles/modulation_control_node.dir/all: vel_modulation/CMakeFiles/TwoWheel_Linear_controller.dir/all
 	$(MAKE) -f vel_modulation/CMakeFiles/modulation_control_node.dir/build.make vel_modulation/CMakeFiles/modulation_control_node.dir/depend
 	$(MAKE) -f vel_modulation/CMakeFiles/modulation_control_node.dir/build.make vel_modulation/CMakeFiles/modulation_control_node.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mm/modulationVel_obsAvoidance_ws/build/CMakeFiles --progress-num=19,20 "Built target modulation_control_node"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mm/modulationVel_obsAvoidance_ws/build/CMakeFiles --progress-num=21,22 "Built target modulation_control_node"
 .PHONY : vel_modulation/CMakeFiles/modulation_control_node.dir/all
 
 # Build rule for subdir invocation for target.
@@ -517,7 +521,7 @@ vel_modulation/CMakeFiles/multi_control_node.dir/all: vel_modulation/CMakeFiles/
 vel_modulation/CMakeFiles/multi_control_node.dir/all: vel_modulation/CMakeFiles/TwoWheel_Linear_controller.dir/all
 	$(MAKE) -f vel_modulation/CMakeFiles/multi_control_node.dir/build.make vel_modulation/CMakeFiles/multi_control_node.dir/depend
 	$(MAKE) -f vel_modulation/CMakeFiles/multi_control_node.dir/build.make vel_modulation/CMakeFiles/multi_control_node.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mm/modulationVel_obsAvoidance_ws/build/CMakeFiles --progress-num=21,22 "Built target multi_control_node"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mm/modulationVel_obsAvoidance_ws/build/CMakeFiles --progress-num=23,24 "Built target multi_control_node"
 .PHONY : vel_modulation/CMakeFiles/multi_control_node.dir/all
 
 # Build rule for subdir invocation for target.
@@ -563,6 +567,33 @@ rosgraph_msgs_generate_messages_lisp: vel_modulation/CMakeFiles/rosgraph_msgs_ge
 vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean:
 	$(MAKE) -f vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean
 .PHONY : vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean
+
+#=============================================================================
+# Target rules for target vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir
+
+# All Build rule for target.
+vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all:
+	$(MAKE) -f vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/depend
+	$(MAKE) -f vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mm/modulationVel_obsAvoidance_ws/build/CMakeFiles --progress-num= "Built target rosgraph_msgs_generate_messages_eus"
+.PHONY : vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
+
+# Build rule for subdir invocation for target.
+vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mm/modulationVel_obsAvoidance_ws/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mm/modulationVel_obsAvoidance_ws/build/CMakeFiles 0
+.PHONY : vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+rosgraph_msgs_generate_messages_eus: vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
+
+.PHONY : rosgraph_msgs_generate_messages_eus
+
+# clean rule for target.
+vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean:
+	$(MAKE) -f vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
+.PHONY : vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
 
 #=============================================================================
 # Target rules for target vel_modulation/CMakeFiles/std_msgs_generate_messages_cpp.dir
@@ -871,7 +902,7 @@ vel_modulation/CMakeFiles/PID_controller.dir/clean:
 vel_modulation/CMakeFiles/modulation_avoider.dir/all:
 	$(MAKE) -f vel_modulation/CMakeFiles/modulation_avoider.dir/build.make vel_modulation/CMakeFiles/modulation_avoider.dir/depend
 	$(MAKE) -f vel_modulation/CMakeFiles/modulation_avoider.dir/build.make vel_modulation/CMakeFiles/modulation_avoider.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mm/modulationVel_obsAvoidance_ws/build/CMakeFiles --progress-num=17,18 "Built target modulation_avoider"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mm/modulationVel_obsAvoidance_ws/build/CMakeFiles --progress-num=19,20 "Built target modulation_avoider"
 .PHONY : vel_modulation/CMakeFiles/modulation_avoider.dir/all
 
 # Build rule for subdir invocation for target.
@@ -919,6 +950,33 @@ vel_modulation/CMakeFiles/NeighborPoseSubscriber.dir/clean:
 .PHONY : vel_modulation/CMakeFiles/NeighborPoseSubscriber.dir/clean
 
 #=============================================================================
+# Target rules for target vel_modulation/CMakeFiles/joy_node.dir
+
+# All Build rule for target.
+vel_modulation/CMakeFiles/joy_node.dir/all:
+	$(MAKE) -f vel_modulation/CMakeFiles/joy_node.dir/build.make vel_modulation/CMakeFiles/joy_node.dir/depend
+	$(MAKE) -f vel_modulation/CMakeFiles/joy_node.dir/build.make vel_modulation/CMakeFiles/joy_node.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mm/modulationVel_obsAvoidance_ws/build/CMakeFiles --progress-num=17,18 "Built target joy_node"
+.PHONY : vel_modulation/CMakeFiles/joy_node.dir/all
+
+# Build rule for subdir invocation for target.
+vel_modulation/CMakeFiles/joy_node.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mm/modulationVel_obsAvoidance_ws/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 vel_modulation/CMakeFiles/joy_node.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mm/modulationVel_obsAvoidance_ws/build/CMakeFiles 0
+.PHONY : vel_modulation/CMakeFiles/joy_node.dir/rule
+
+# Convenience name for target.
+joy_node: vel_modulation/CMakeFiles/joy_node.dir/rule
+
+.PHONY : joy_node
+
+# clean rule for target.
+vel_modulation/CMakeFiles/joy_node.dir/clean:
+	$(MAKE) -f vel_modulation/CMakeFiles/joy_node.dir/build.make vel_modulation/CMakeFiles/joy_node.dir/clean
+.PHONY : vel_modulation/CMakeFiles/joy_node.dir/clean
+
+#=============================================================================
 # Target rules for target vel_modulation/CMakeFiles/TwoWheel_Linear_controller.dir
 
 # All Build rule for target.
@@ -946,13 +1004,43 @@ vel_modulation/CMakeFiles/TwoWheel_Linear_controller.dir/clean:
 .PHONY : vel_modulation/CMakeFiles/TwoWheel_Linear_controller.dir/clean
 
 #=============================================================================
+# Target rules for target vel_modulation/CMakeFiles/multi_control_node_APF.dir
+
+# All Build rule for target.
+vel_modulation/CMakeFiles/multi_control_node_APF.dir/all: vel_modulation/CMakeFiles/PID_controller.dir/all
+vel_modulation/CMakeFiles/multi_control_node_APF.dir/all: vel_modulation/CMakeFiles/modulation_avoider.dir/all
+vel_modulation/CMakeFiles/multi_control_node_APF.dir/all: vel_modulation/CMakeFiles/NeighborPoseSubscriber.dir/all
+vel_modulation/CMakeFiles/multi_control_node_APF.dir/all: vel_modulation/CMakeFiles/TwoWheel_Linear_controller.dir/all
+	$(MAKE) -f vel_modulation/CMakeFiles/multi_control_node_APF.dir/build.make vel_modulation/CMakeFiles/multi_control_node_APF.dir/depend
+	$(MAKE) -f vel_modulation/CMakeFiles/multi_control_node_APF.dir/build.make vel_modulation/CMakeFiles/multi_control_node_APF.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mm/modulationVel_obsAvoidance_ws/build/CMakeFiles --progress-num=25,26 "Built target multi_control_node_APF"
+.PHONY : vel_modulation/CMakeFiles/multi_control_node_APF.dir/all
+
+# Build rule for subdir invocation for target.
+vel_modulation/CMakeFiles/multi_control_node_APF.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mm/modulationVel_obsAvoidance_ws/build/CMakeFiles 10
+	$(MAKE) -f CMakeFiles/Makefile2 vel_modulation/CMakeFiles/multi_control_node_APF.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mm/modulationVel_obsAvoidance_ws/build/CMakeFiles 0
+.PHONY : vel_modulation/CMakeFiles/multi_control_node_APF.dir/rule
+
+# Convenience name for target.
+multi_control_node_APF: vel_modulation/CMakeFiles/multi_control_node_APF.dir/rule
+
+.PHONY : multi_control_node_APF
+
+# clean rule for target.
+vel_modulation/CMakeFiles/multi_control_node_APF.dir/clean:
+	$(MAKE) -f vel_modulation/CMakeFiles/multi_control_node_APF.dir/build.make vel_modulation/CMakeFiles/multi_control_node_APF.dir/clean
+.PHONY : vel_modulation/CMakeFiles/multi_control_node_APF.dir/clean
+
+#=============================================================================
 # Target rules for target vel_modulation/CMakeFiles/pub_obstacle.dir
 
 # All Build rule for target.
 vel_modulation/CMakeFiles/pub_obstacle.dir/all:
 	$(MAKE) -f vel_modulation/CMakeFiles/pub_obstacle.dir/build.make vel_modulation/CMakeFiles/pub_obstacle.dir/depend
 	$(MAKE) -f vel_modulation/CMakeFiles/pub_obstacle.dir/build.make vel_modulation/CMakeFiles/pub_obstacle.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mm/modulationVel_obsAvoidance_ws/build/CMakeFiles --progress-num=23,24 "Built target pub_obstacle"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mm/modulationVel_obsAvoidance_ws/build/CMakeFiles --progress-num=27,28 "Built target pub_obstacle"
 .PHONY : vel_modulation/CMakeFiles/pub_obstacle.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1025,33 +1113,6 @@ roscpp_generate_messages_eus: vel_modulation/CMakeFiles/roscpp_generate_messages
 vel_modulation/CMakeFiles/roscpp_generate_messages_eus.dir/clean:
 	$(MAKE) -f vel_modulation/CMakeFiles/roscpp_generate_messages_eus.dir/build.make vel_modulation/CMakeFiles/roscpp_generate_messages_eus.dir/clean
 .PHONY : vel_modulation/CMakeFiles/roscpp_generate_messages_eus.dir/clean
-
-#=============================================================================
-# Target rules for target vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir
-
-# All Build rule for target.
-vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all:
-	$(MAKE) -f vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/depend
-	$(MAKE) -f vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mm/modulationVel_obsAvoidance_ws/build/CMakeFiles --progress-num= "Built target rosgraph_msgs_generate_messages_eus"
-.PHONY : vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
-
-# Build rule for subdir invocation for target.
-vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mm/modulationVel_obsAvoidance_ws/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mm/modulationVel_obsAvoidance_ws/build/CMakeFiles 0
-.PHONY : vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-rosgraph_msgs_generate_messages_eus: vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
-
-.PHONY : rosgraph_msgs_generate_messages_eus
-
-# clean rule for target.
-vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean:
-	$(MAKE) -f vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
-.PHONY : vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

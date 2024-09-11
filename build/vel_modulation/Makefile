@@ -80,6 +80,18 @@ install/fast: preinstall/fast
 	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
 
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
 # Special rule for the target list_install_components
 list_install_components:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
@@ -122,18 +134,6 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -241,6 +241,21 @@ rosgraph_msgs_generate_messages_lisp: vel_modulation/CMakeFiles/rosgraph_msgs_ge
 rosgraph_msgs_generate_messages_lisp/fast:
 	cd /home/mm/modulationVel_obsAvoidance_ws/build && $(MAKE) -f vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build
 .PHONY : rosgraph_msgs_generate_messages_lisp/fast
+
+# Convenience name for target.
+vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule:
+	cd /home/mm/modulationVel_obsAvoidance_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
+.PHONY : vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+rosgraph_msgs_generate_messages_eus: vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
+
+.PHONY : rosgraph_msgs_generate_messages_eus
+
+# fast build rule for target.
+rosgraph_msgs_generate_messages_eus/fast:
+	cd /home/mm/modulationVel_obsAvoidance_ws/build && $(MAKE) -f vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build
+.PHONY : rosgraph_msgs_generate_messages_eus/fast
 
 # Convenience name for target.
 vel_modulation/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule:
@@ -438,6 +453,21 @@ NeighborPoseSubscriber/fast:
 .PHONY : NeighborPoseSubscriber/fast
 
 # Convenience name for target.
+vel_modulation/CMakeFiles/joy_node.dir/rule:
+	cd /home/mm/modulationVel_obsAvoidance_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vel_modulation/CMakeFiles/joy_node.dir/rule
+.PHONY : vel_modulation/CMakeFiles/joy_node.dir/rule
+
+# Convenience name for target.
+joy_node: vel_modulation/CMakeFiles/joy_node.dir/rule
+
+.PHONY : joy_node
+
+# fast build rule for target.
+joy_node/fast:
+	cd /home/mm/modulationVel_obsAvoidance_ws/build && $(MAKE) -f vel_modulation/CMakeFiles/joy_node.dir/build.make vel_modulation/CMakeFiles/joy_node.dir/build
+.PHONY : joy_node/fast
+
+# Convenience name for target.
 vel_modulation/CMakeFiles/TwoWheel_Linear_controller.dir/rule:
 	cd /home/mm/modulationVel_obsAvoidance_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vel_modulation/CMakeFiles/TwoWheel_Linear_controller.dir/rule
 .PHONY : vel_modulation/CMakeFiles/TwoWheel_Linear_controller.dir/rule
@@ -451,6 +481,21 @@ TwoWheel_Linear_controller: vel_modulation/CMakeFiles/TwoWheel_Linear_controller
 TwoWheel_Linear_controller/fast:
 	cd /home/mm/modulationVel_obsAvoidance_ws/build && $(MAKE) -f vel_modulation/CMakeFiles/TwoWheel_Linear_controller.dir/build.make vel_modulation/CMakeFiles/TwoWheel_Linear_controller.dir/build
 .PHONY : TwoWheel_Linear_controller/fast
+
+# Convenience name for target.
+vel_modulation/CMakeFiles/multi_control_node_APF.dir/rule:
+	cd /home/mm/modulationVel_obsAvoidance_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vel_modulation/CMakeFiles/multi_control_node_APF.dir/rule
+.PHONY : vel_modulation/CMakeFiles/multi_control_node_APF.dir/rule
+
+# Convenience name for target.
+multi_control_node_APF: vel_modulation/CMakeFiles/multi_control_node_APF.dir/rule
+
+.PHONY : multi_control_node_APF
+
+# fast build rule for target.
+multi_control_node_APF/fast:
+	cd /home/mm/modulationVel_obsAvoidance_ws/build && $(MAKE) -f vel_modulation/CMakeFiles/multi_control_node_APF.dir/build.make vel_modulation/CMakeFiles/multi_control_node_APF.dir/build
+.PHONY : multi_control_node_APF/fast
 
 # Convenience name for target.
 vel_modulation/CMakeFiles/pub_obstacle.dir/rule:
@@ -496,21 +541,6 @@ roscpp_generate_messages_eus: vel_modulation/CMakeFiles/roscpp_generate_messages
 roscpp_generate_messages_eus/fast:
 	cd /home/mm/modulationVel_obsAvoidance_ws/build && $(MAKE) -f vel_modulation/CMakeFiles/roscpp_generate_messages_eus.dir/build.make vel_modulation/CMakeFiles/roscpp_generate_messages_eus.dir/build
 .PHONY : roscpp_generate_messages_eus/fast
-
-# Convenience name for target.
-vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule:
-	cd /home/mm/modulationVel_obsAvoidance_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
-.PHONY : vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-rosgraph_msgs_generate_messages_eus: vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
-
-.PHONY : rosgraph_msgs_generate_messages_eus
-
-# fast build rule for target.
-rosgraph_msgs_generate_messages_eus/fast:
-	cd /home/mm/modulationVel_obsAvoidance_ws/build && $(MAKE) -f vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make vel_modulation/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build
-.PHONY : rosgraph_msgs_generate_messages_eus/fast
 
 src/NeighborPoseSubscriber.o: src/NeighborPoseSubscriber.cpp.o
 
@@ -677,6 +707,33 @@ src/multi_control_node.cpp.s:
 	cd /home/mm/modulationVel_obsAvoidance_ws/build && $(MAKE) -f vel_modulation/CMakeFiles/multi_control_node.dir/build.make vel_modulation/CMakeFiles/multi_control_node.dir/src/multi_control_node.cpp.s
 .PHONY : src/multi_control_node.cpp.s
 
+src/multi_control_node_APF.o: src/multi_control_node_APF.cpp.o
+
+.PHONY : src/multi_control_node_APF.o
+
+# target to build an object file
+src/multi_control_node_APF.cpp.o:
+	cd /home/mm/modulationVel_obsAvoidance_ws/build && $(MAKE) -f vel_modulation/CMakeFiles/multi_control_node_APF.dir/build.make vel_modulation/CMakeFiles/multi_control_node_APF.dir/src/multi_control_node_APF.cpp.o
+.PHONY : src/multi_control_node_APF.cpp.o
+
+src/multi_control_node_APF.i: src/multi_control_node_APF.cpp.i
+
+.PHONY : src/multi_control_node_APF.i
+
+# target to preprocess a source file
+src/multi_control_node_APF.cpp.i:
+	cd /home/mm/modulationVel_obsAvoidance_ws/build && $(MAKE) -f vel_modulation/CMakeFiles/multi_control_node_APF.dir/build.make vel_modulation/CMakeFiles/multi_control_node_APF.dir/src/multi_control_node_APF.cpp.i
+.PHONY : src/multi_control_node_APF.cpp.i
+
+src/multi_control_node_APF.s: src/multi_control_node_APF.cpp.s
+
+.PHONY : src/multi_control_node_APF.s
+
+# target to generate assembly for a file
+src/multi_control_node_APF.cpp.s:
+	cd /home/mm/modulationVel_obsAvoidance_ws/build && $(MAKE) -f vel_modulation/CMakeFiles/multi_control_node_APF.dir/build.make vel_modulation/CMakeFiles/multi_control_node_APF.dir/src/multi_control_node_APF.cpp.s
+.PHONY : src/multi_control_node_APF.cpp.s
+
 src/pub_obstacle.o: src/pub_obstacle.cpp.o
 
 .PHONY : src/pub_obstacle.o
@@ -704,6 +761,33 @@ src/pub_obstacle.cpp.s:
 	cd /home/mm/modulationVel_obsAvoidance_ws/build && $(MAKE) -f vel_modulation/CMakeFiles/pub_obstacle.dir/build.make vel_modulation/CMakeFiles/pub_obstacle.dir/src/pub_obstacle.cpp.s
 .PHONY : src/pub_obstacle.cpp.s
 
+src/utils/joy_node.o: src/utils/joy_node.cpp.o
+
+.PHONY : src/utils/joy_node.o
+
+# target to build an object file
+src/utils/joy_node.cpp.o:
+	cd /home/mm/modulationVel_obsAvoidance_ws/build && $(MAKE) -f vel_modulation/CMakeFiles/joy_node.dir/build.make vel_modulation/CMakeFiles/joy_node.dir/src/utils/joy_node.cpp.o
+.PHONY : src/utils/joy_node.cpp.o
+
+src/utils/joy_node.i: src/utils/joy_node.cpp.i
+
+.PHONY : src/utils/joy_node.i
+
+# target to preprocess a source file
+src/utils/joy_node.cpp.i:
+	cd /home/mm/modulationVel_obsAvoidance_ws/build && $(MAKE) -f vel_modulation/CMakeFiles/joy_node.dir/build.make vel_modulation/CMakeFiles/joy_node.dir/src/utils/joy_node.cpp.i
+.PHONY : src/utils/joy_node.cpp.i
+
+src/utils/joy_node.s: src/utils/joy_node.cpp.s
+
+.PHONY : src/utils/joy_node.s
+
+# target to generate assembly for a file
+src/utils/joy_node.cpp.s:
+	cd /home/mm/modulationVel_obsAvoidance_ws/build && $(MAKE) -f vel_modulation/CMakeFiles/joy_node.dir/build.make vel_modulation/CMakeFiles/joy_node.dir/src/utils/joy_node.cpp.s
+.PHONY : src/utils/joy_node.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -711,15 +795,17 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... install/strip"
+	@echo "... install"
 	@echo "... roscpp_generate_messages_lisp"
 	@echo "... rosgraph_msgs_generate_messages_py"
 	@echo "... modulation_control_node"
 	@echo "... multi_control_node"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
+	@echo "... install/local"
+	@echo "... rosgraph_msgs_generate_messages_eus"
 	@echo "... std_msgs_generate_messages_cpp"
 	@echo "... roscpp_generate_messages_nodejs"
 	@echo "... std_msgs_generate_messages_eus"
-	@echo "... install"
 	@echo "... roscpp_generate_messages_py"
 	@echo "... std_msgs_generate_messages_lisp"
 	@echo "... list_install_components"
@@ -731,15 +817,15 @@ help:
 	@echo "... PID_controller"
 	@echo "... modulation_avoider"
 	@echo "... NeighborPoseSubscriber"
+	@echo "... joy_node"
 	@echo "... TwoWheel_Linear_controller"
+	@echo "... multi_control_node_APF"
 	@echo "... pub_obstacle"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
 	@echo "... test"
 	@echo "... edit_cache"
 	@echo "... roscpp_generate_messages_eus"
 	@echo "... rebuild_cache"
-	@echo "... rosgraph_msgs_generate_messages_eus"
-	@echo "... install/local"
 	@echo "... src/NeighborPoseSubscriber.o"
 	@echo "... src/NeighborPoseSubscriber.i"
 	@echo "... src/NeighborPoseSubscriber.s"
@@ -758,9 +844,15 @@ help:
 	@echo "... src/multi_control_node.o"
 	@echo "... src/multi_control_node.i"
 	@echo "... src/multi_control_node.s"
+	@echo "... src/multi_control_node_APF.o"
+	@echo "... src/multi_control_node_APF.i"
+	@echo "... src/multi_control_node_APF.s"
 	@echo "... src/pub_obstacle.o"
 	@echo "... src/pub_obstacle.i"
 	@echo "... src/pub_obstacle.s"
+	@echo "... src/utils/joy_node.o"
+	@echo "... src/utils/joy_node.i"
+	@echo "... src/utils/joy_node.s"
 .PHONY : help
 
 
